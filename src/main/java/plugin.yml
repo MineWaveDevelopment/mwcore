@@ -1,0 +1,13 @@
+name: MWcore
+version: 1.0.0
+api-version: 1.15
+description: Plugin to provide the core features of the MineWave.de server
+authors: [FelixBau]
+
+main: de.minewave.mwcore.MwCorePlugin
+
+commands:
+   test:
+   user:
+   group:
+   chat:
