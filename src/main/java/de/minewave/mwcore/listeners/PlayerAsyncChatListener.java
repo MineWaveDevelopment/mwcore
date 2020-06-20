@@ -1,12 +1,13 @@
 package de.minewave.mwcore.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import de.minewave.mwcore.chat.ChatUtil;
+import de.minewave.mwcore.util.ChatHelper;
 
 /**
  * Software by FLXnet
@@ -23,7 +24,8 @@ public class PlayerAsyncChatListener implements Listener {
 		
 		e.setCancelled(true);
 		
-		ChatUtil.sendReplyableMessage(player, Bukkit.getOnlinePlayers(), message);
+		ChatHelper.sendReplyableMessage(player, Bukkit.getOnlinePlayers(), message);
+		ChatHelper.notifySound(Bukkit.getOnlinePlayers(), Sound.BLOCK_NOTE_BLOCK_BELL);
 		
 		if(message.contains("@")) {
 			Bukkit.getOnlinePlayers().stream().forEach(onlinePlayer -> {

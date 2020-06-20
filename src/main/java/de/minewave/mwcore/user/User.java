@@ -3,6 +3,7 @@ package de.minewave.mwcore.user;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.google.gson.annotations.Expose;
@@ -53,8 +54,8 @@ public class User {
 		this.debug = false;
 	}
 	
-	public void message(String message) {
-		ConsoleHelper.message(getPlayer(), message);
+	public boolean hasPermission(String permission) {
+		return getGroup().getPermissions().contains(permission) || getGroup().getPermissions().contains("*");
 	}
 	
 	public Player getPlayer() {
@@ -71,6 +72,23 @@ public class User {
 	
 	public Group getGroup() {
 		return MwCorePlugin.getInstance().getGroupManager().getGroup(groupName);
+	}
+	
+	public void message(String message) {
+		ConsoleHelper.message(getPlayer(), message);
+	}
+	
+	public void lightMessage(String message) {
+		getPlayer().sendMessage(message);
+	}
+	
+	public void noPermission() {
+		ConsoleHelper.message(getPlayer(), "§cYou do not have the permission to use this command");
+	}
+	
+	public static Player getPlayer(CommandSender sender) {
+		if((sender instanceof Player) && sender != null) return (Player) sender;
+		return null;
 	}
 	
 }

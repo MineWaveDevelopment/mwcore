@@ -36,7 +36,7 @@ public class GroupManager implements IPersistableManager {
 		Bukkit.getScheduler().runTaskTimer(MwCorePlugin.getInstance(), task -> {
 			boolean saved = save();
 			if(!saved) ConsoleHelper.console("§cGroups could not be saved in scheduled task!");
-			ConsoleHelper.console("§aGroups have been saved.");
+			//ConsoleHelper.console("§aGroups have been saved.");
 		}, 20 * 1, 20 * 30);
 	}
 	

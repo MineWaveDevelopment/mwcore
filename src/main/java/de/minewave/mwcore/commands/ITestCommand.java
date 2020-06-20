@@ -18,4 +18,10 @@ public interface ITestCommand extends ICommand {
 	
 	void testSound(CommandSender sender, List<String> arguments);
 	
+	void permCheck(CommandSender sender, List<String> arguments);
+
+	void text(CommandSender sender, List<String> arguments);
+	
+	void testParticle(CommandSender sender, List<String> arguments);
+	
 }

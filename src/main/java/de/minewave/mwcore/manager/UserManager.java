@@ -38,7 +38,7 @@ public class UserManager implements IPersistableManager {
 		Bukkit.getScheduler().runTaskTimer(MwCorePlugin.getInstance(), task -> {
 			boolean saved = save();
 			if(!saved) ConsoleHelper.console("§cUsers could not be saved in scheduled task!");
-			ConsoleHelper.console("§aUsers have been saved.");
+			//ConsoleHelper.console("§aUsers have been saved.");
 		}, 20 * 1, 20 * 30);
 	}
 	

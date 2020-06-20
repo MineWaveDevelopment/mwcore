@@ -1,14 +1,21 @@
 package de.minewave.mwcore.actions.internal;
 
+import org.bukkit.Chunk;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
-import de.minewave.mwcore.MwCorePlugin;
-import de.minewave.mwcore.actions.GroupCreateAction;
-import de.minewave.mwcore.actions.GroupDeleteAction;
-import de.minewave.mwcore.actions.GroupListAction;
-import de.minewave.mwcore.actions.UserInfoAction;
+import de.minewave.mwcore.MWAccess;
 import de.minewave.mwcore.group.Group;
+import de.minewave.mwcore.group.actions.GroupCreateAction;
+import de.minewave.mwcore.group.actions.GroupDeleteAction;
+import de.minewave.mwcore.group.actions.GroupListAction;
+import de.minewave.mwcore.region.ChunkPoint;
+import de.minewave.mwcore.region.actions.RegionBuyAction;
+import de.minewave.mwcore.region.actions.RegionInfoAction;
+import de.minewave.mwcore.region.actions.RegionListAction;
+import de.minewave.mwcore.region.actions.RegionMarkAction;
 import de.minewave.mwcore.user.User;
+import de.minewave.mwcore.user.actions.UserInfoAction;
 
 /**
  * Software by FLXnet
@@ -19,19 +26,35 @@ import de.minewave.mwcore.user.User;
 public class AsyncActions {
 
 	public static void userInfoAction(Player player) {
-		MwCorePlugin.getInstance().getAsyncActionQueue().process(new UserInfoAction(player));
+		MWAccess.getAsyncActionQueue().process(new UserInfoAction(player));
 	}
 	
 	public static void listGroupsAction(User user) {
-		MwCorePlugin.getInstance().getAsyncActionQueue().process(new GroupListAction(user));
+		MWAccess.getAsyncActionQueue().process(new GroupListAction(user));
 	}
 	
 	public static void createGroupAction(User user, Group group) {
-		MwCorePlugin.getInstance().getAsyncActionQueue().process(new GroupCreateAction(user, group));
+		MWAccess.getAsyncActionQueue().process(new GroupCreateAction(user, group));
 	}
 	
 	public static void removeGroupActon(User user, String name) {
-		MwCorePlugin.getInstance().getAsyncActionQueue().process(new GroupDeleteAction(user, name));
+		MWAccess.getAsyncActionQueue().process(new GroupDeleteAction(user, name));
+	}
+	
+	public static void regionInfoAction(User user, ChunkPoint chunkPoint) {
+		MWAccess.getAsyncActionQueue().process(new RegionInfoAction(user, chunkPoint));
+	}
+	
+	public static void regionBuyAction(User user, ChunkPoint chunkPoint) {
+		MWAccess.getAsyncActionQueue().process(new RegionBuyAction(user, chunkPoint));
+	}
+	
+	public static void regionListAction(User user) {
+		MWAccess.getAsyncActionQueue().process(new RegionListAction(user));
+	}
+	
+	public static void regionMarkAction(User user, Chunk chunk, Particle particle) {
+		MWAccess.getAsyncActionQueue().process(new RegionMarkAction(user, chunk, particle));
 	}
 	
 }

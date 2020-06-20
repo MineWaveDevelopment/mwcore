@@ -9,9 +9,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import de.minewave.mwcore.MwCorePlugin;
-import de.minewave.mwcore.commands.GroupCommand;
-import de.minewave.mwcore.commands.TestCommand;
-import de.minewave.mwcore.commands.UserCommand;
+import de.minewave.mwcore.commands.implementations.ChatCommand;
+import de.minewave.mwcore.commands.implementations.GroupCommand;
+import de.minewave.mwcore.commands.implementations.RegionCommand;
+import de.minewave.mwcore.commands.implementations.TestCommand;
+import de.minewave.mwcore.commands.implementations.UserCommand;
 import de.minewave.mwcore.commands.internal.ICommand;
 import de.minewave.mwcore.commands.internal.MineWaveCommandExecuter;
 import de.minewave.mwcore.commands.internal.SubCommand;
@@ -35,6 +37,8 @@ public class CommandHelper {
 		commands.put("test", new TestCommand());
 		commands.put("user", new UserCommand());
 		commands.put("group", new GroupCommand());
+		commands.put("chat", new ChatCommand());
+		commands.put("region", new RegionCommand());
 	}
 	
 	private static void setupCommandExecutor() {

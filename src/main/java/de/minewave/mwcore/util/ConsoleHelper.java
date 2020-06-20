@@ -1,9 +1,12 @@
 package de.minewave.mwcore.util;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import de.minewave.mwcore.group.Group;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -22,6 +25,29 @@ public class ConsoleHelper {
 	
 	public static void player(Player player, String message) {
 		player.sendMessage(prefix + message);
+	}
+	
+	public static void groupInfo(CommandSender sender, Group group) {
+		TextComponent message = new TextComponent();
+		
+		TextComponent groupNameMessage = new TextComponent();
+		groupNameMessage.setText("§d" + group.getName() + " ");
+		
+		List<String> permissions = group.getPermissions();
+		TextComponent permissionListMessage = new TextComponent();
+		permissionListMessage.setText("§7Permissions §b[" + permissions.size() + "]");
+		
+		StringBuilder permissionListBuilder = new StringBuilder();
+		permissions.forEach(permission -> {
+			permissionListBuilder.append("#" + permission + "\n");
+		});
+		
+		permissionListMessage.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§7" + permissionListBuilder.toString()).create()));
+		
+		message.addExtra(groupNameMessage);
+		message.addExtra(permissionListMessage);
+		
+		((Player) sender).spigot().sendMessage(message);
 	}
 	
 	public static void copyableMessage(CommandSender sender, String message, String copyable) {

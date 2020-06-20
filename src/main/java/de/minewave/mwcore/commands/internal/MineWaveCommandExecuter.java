@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import com.google.common.collect.Lists;
 
 import de.minewave.mwcore.MwCorePlugin;
+import de.minewave.mwcore.user.User;
 import de.minewave.mwcore.util.CommandHelper;
 import de.minewave.mwcore.util.ConsoleHelper;
 
@@ -52,18 +53,27 @@ public class MineWaveCommandExecuter implements CommandExecutor, TabCompleter {
 		
 		SubCommand subCommand = CommandHelper.getSubCommand(com, subCommandName);
 		
-		if(arguments.size() < subCommand.subCommandSyntax().length) {
+		if(arguments.size() < subCommand.subCommandSyntax().length) { // ToDo: Identify missing arguments and prezise missingArguments-message
 			ConsoleHelper.missingArguments(sender, label, subCommandName);
 			return true;
 		}
 		
-		if(arguments.size() > subCommand.subCommandSyntax().length) {
+		if(arguments.size() > subCommand.subCommandSyntax().length && !subCommand.subCommandSyntax()[subCommand.subCommandSyntax().length - 1].equalsIgnoreCase("text")) {
 			ConsoleHelper.argumentsNotRequired(sender, label, subCommandName);
 		}
 		
-		if((sender instanceof Player) && MwCorePlugin.getInstance().getUserManager().getUser((Player) sender).isDebug()) {
+		Player player = (Player) sender;
+		User user = MwCorePlugin.getInstance().getUserManager().getUser(player);
+		
+		String permission = "mwcore." + label + "." + subCommand.subCommandName();
+		if(!user.hasPermission(permission)) {
+			user.noPermission();
+			ConsoleHelper.copyableMessage(sender, "§7[" + permission + "]", permission);
+			return true;
+		}
+		
+		if(user.isDebug()) {
 			ConsoleHelper.message(sender, "§3Permission information for this command");
-			String permission = "mwcore." + label + "." + subCommand.subCommandName();
 			ConsoleHelper.copyableMessage(sender, "§7[" + permission + "]", permission);
 		}
 		
@@ -96,10 +106,19 @@ public class MineWaveCommandExecuter implements CommandExecutor, TabCompleter {
 		SubCommand subCommand = CommandHelper.getSubCommand(com, subCommandName);
 		if(subCommand == null) return Lists.newArrayList("§8[§6Unknown argument§8]");
 		
-		if((args.length - 2) >= subCommand.subCommandSyntax().length) return Lists.newArrayList("§8[§6No more arguments required§8]");
+		String[] subCommandSyntax = subCommand.subCommandSyntax();
+		
+		// Special case for multi word argument [text...]
+		if(subCommand.subCommandSyntax().length > 0 && (args.length - 1) >= subCommandSyntax.length && subCommandSyntax[subCommandSyntax.length - 1].equalsIgnoreCase("text")) {
+			return KeyWords.getValues("text", args[args.length - 1]);
+		}
+		
+		if((args.length - 2) >= subCommandSyntax.length || subCommandSyntax.length == 0) {
+			return Lists.newArrayList("§8[§6No more arguments required§8]");
+		}
 		
 		if(args.length > 1) {
-			return ArgumentType.getValues(subCommand.subCommandSyntax()[args.length - 2]);
+			return KeyWords.getValues(subCommandSyntax[args.length - 2], args[args.length - 1]);
 		}
 
 		return null;

@@ -45,7 +45,7 @@ public class AsyncActionQueue implements Runnable {
 			if(action == null) return;
 			
 			action.run();
-			System.out.println("[AsyncActionQueue] action.run() for " + action.getClass().getName());
+			System.out.println("[AsyncActionQueue] Running " + action.getClass().getSimpleName());
 		}
 	}
 	

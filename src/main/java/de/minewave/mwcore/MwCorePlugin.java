@@ -4,13 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.minewave.mwcore.actions.internal.AsyncActionQueue;
+import de.minewave.mwcore.actions.internal.SyncActionQueue;
 import de.minewave.mwcore.manager.GroupManager;
+import de.minewave.mwcore.manager.RegionManager;
 import de.minewave.mwcore.manager.UserManager;
 import de.minewave.mwcore.util.CommandHelper;
 import de.minewave.mwcore.util.ConsoleHelper;
 import de.minewave.mwcore.util.ListenerHelper;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Software by FLXnet
@@ -27,13 +28,16 @@ public class MwCorePlugin extends JavaPlugin {
 	private AsyncActionQueue asyncActionQueue;
 	
 	@Getter
+	private SyncActionQueue syncActionQueue;
+	
+	@Getter
 	private UserManager userManager;
 	
 	@Getter
 	private GroupManager groupManager;
 	
-	@Getter @Setter
-	private boolean debug = true;
+	@Getter
+	private RegionManager regionManager;
 	
 	@Override
 	public void onEnable() {
@@ -42,8 +46,12 @@ public class MwCorePlugin extends JavaPlugin {
 		asyncActionQueue = new AsyncActionQueue();
 		Bukkit.getScheduler().runTaskTimerAsynchronously(instance, asyncActionQueue, 1, 1);
 		
+		syncActionQueue = new SyncActionQueue();
+		Bukkit.getScheduler().runTaskTimer(instance, syncActionQueue, 1, 1);
+		
 		userManager = new UserManager();
 		groupManager = new GroupManager();
+		regionManager = new RegionManager();
 		
 		CommandHelper.setupCommandHandling();
 		ListenerHelper.setupEventListenerHandling();

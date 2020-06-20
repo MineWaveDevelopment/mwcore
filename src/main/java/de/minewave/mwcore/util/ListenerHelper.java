@@ -6,6 +6,7 @@ import org.bukkit.plugin.PluginManager;
 import de.minewave.mwcore.MwCorePlugin;
 import de.minewave.mwcore.listeners.PlayerAsyncChatListener;
 import de.minewave.mwcore.listeners.PlayerJoinListener;
+import de.minewave.mwcore.listeners.PlayerLeaveListener;
 
 /**
  * Software by FLXnet
@@ -19,6 +20,7 @@ public class ListenerHelper {
 		MwCorePlugin plugin = MwCorePlugin.getInstance();
 		PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 		pluginManager.registerEvents(new PlayerJoinListener(), plugin);
+		pluginManager.registerEvents(new PlayerLeaveListener(), plugin);
 		pluginManager.registerEvents(new PlayerAsyncChatListener(), plugin);
 	}
 	
