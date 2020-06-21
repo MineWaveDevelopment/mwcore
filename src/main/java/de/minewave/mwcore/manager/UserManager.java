@@ -51,7 +51,7 @@ public class UserManager implements IPersistableManager {
 	}
 	
 	public User getUser(String name) {
-		return users.stream().filter(d -> d.getName().equals(name)).findAny().get();
+		return users.stream().filter(d -> d.getName().equalsIgnoreCase(name)).findAny().get();
 	}
 	
 	public boolean hasUser(UUID uuid) {

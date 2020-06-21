@@ -10,8 +10,10 @@ import org.bukkit.Sound;
 
 import com.google.common.collect.Lists;
 
+import de.minewave.mwcore.MWAccess;
 import de.minewave.mwcore.MwCorePlugin;
 import de.minewave.mwcore.group.Group;
+import de.minewave.mwcore.items.CustomItem;
 import de.minewave.mwcore.user.User;
 
 /**
@@ -48,6 +50,14 @@ public class KeyWords {
 						.limit(8)
 						.collect(Collectors.toList()));
 				values.add("§2[particle] §7name of a Minecraft particle, Examples [WATER_SPLASH]");
+				break;
+			case "customItem":
+				values.addAll(MWAccess.getCustomItemManager().getItems().stream()
+						.filter(item -> item.getName().contains(input) || item.getName().contains(input))
+						.map(CustomItem::getName)
+						.limit(8)
+						.collect(Collectors.toList()));
+				values.add("§2[customItem] §7name of a custom created and stored item");
 				break;
 			case "user":
 				values.addAll(MwCorePlugin.getInstance().getUserManager().getUsers().stream().map(User::getName).collect(Collectors.toList()));
@@ -99,12 +109,14 @@ public class KeyWords {
 					break;
 				case "particle":
 					value = Particle.valueOf(argument);
+				case "customItem":
+					value = MWAccess.getCustomItemManager().getItem(argument);
 					break;
 				case "user":
-					value = MwCorePlugin.getInstance().getUserManager().getUser(argument);
+					value = MWAccess.getUserManager().getUser(argument);
 					break;
 				case "group":
-					value = MwCorePlugin.getInstance().getGroupManager().getGroup(argument);
+					value = MWAccess.getGroupManager().getGroup(argument);
 					break;
 				case "name":
 					value = argument;

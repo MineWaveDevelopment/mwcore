@@ -10,7 +10,7 @@ import de.minewave.mwcore.group.actions.GroupCreateAction;
 import de.minewave.mwcore.group.actions.GroupDeleteAction;
 import de.minewave.mwcore.group.actions.GroupListAction;
 import de.minewave.mwcore.region.ChunkPoint;
-import de.minewave.mwcore.region.actions.RegionBuyAction;
+import de.minewave.mwcore.region.actions.RegionClaimAction;
 import de.minewave.mwcore.region.actions.RegionInfoAction;
 import de.minewave.mwcore.region.actions.RegionListAction;
 import de.minewave.mwcore.region.actions.RegionMarkAction;
@@ -46,7 +46,7 @@ public class AsyncActions {
 	}
 	
 	public static void regionBuyAction(User user, ChunkPoint chunkPoint) {
-		MWAccess.getAsyncActionQueue().process(new RegionBuyAction(user, chunkPoint));
+		MWAccess.getAsyncActionQueue().process(new RegionClaimAction(user, chunkPoint));
 	}
 	
 	public static void regionListAction(User user) {

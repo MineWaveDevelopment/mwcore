@@ -31,9 +31,9 @@ public class RegionCommand implements IRegionCommand {
 		AsyncActions.regionInfoAction(user, chunkPoint);	
 	}
 
-	@SubCommand(subCommandName = "buy", subCommandSyntax = {})
+	@SubCommand(subCommandName = "claim", subCommandSyntax = {})
 	@Override
-	public void buy(CommandSender sender, List<String> arguments) {
+	public void claim(CommandSender sender, List<String> arguments) {
 		if(!(sender instanceof Player)) return;
 		Player player = (Player) sender;
 		User user = MWAccess.getUserManager().getUser(player);

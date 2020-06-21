@@ -5,6 +5,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import de.minewave.mwcore.actions.internal.AsyncActionQueue;
 import de.minewave.mwcore.actions.internal.SyncActionQueue;
+import de.minewave.mwcore.manager.CustomHeadManager;
+import de.minewave.mwcore.manager.CustomItemManager;
 import de.minewave.mwcore.manager.GroupManager;
 import de.minewave.mwcore.manager.RegionManager;
 import de.minewave.mwcore.manager.UserManager;
@@ -39,6 +41,12 @@ public class MwCorePlugin extends JavaPlugin {
 	@Getter
 	private RegionManager regionManager;
 	
+	@Getter
+	private CustomItemManager customItemManager;
+	
+	@Getter
+	private CustomHeadManager customHeadManager;
+	
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -52,6 +60,8 @@ public class MwCorePlugin extends JavaPlugin {
 		userManager = new UserManager();
 		groupManager = new GroupManager();
 		regionManager = new RegionManager();
+		customItemManager = new CustomItemManager();
+		customHeadManager = new CustomHeadManager();
 		
 		CommandHelper.setupCommandHandling();
 		ListenerHelper.setupEventListenerHandling();

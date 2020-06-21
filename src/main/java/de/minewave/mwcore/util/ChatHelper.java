@@ -34,10 +34,50 @@ public class ChatHelper {
 	
 	public static List<AdvancedChatMessage> messages = Lists.newArrayList();
 	
-	public static void notifySound(Collection<? extends Player> receivers, Sound sound) {
-		receivers.forEach(player -> {
-			player.playSound(player.getLocation(), sound, 10, 1);
-		});
+	public static void notifySound(Player player, Sound sound) {
+		player.playSound(player.getLocation(), sound, 10, 1);
+	}
+	
+	public static void sendPrivateMessage(User sender, User receiver, String message) {
+		TextComponent chatMessage = new TextComponent();
+		
+		TextComponent playerMessage = new TextComponent();
+		playerMessage.setText("§8[§3P§8] §2" + sender.getName() + " §a-> §7§o");
+		chatMessage.addExtra(playerMessage);
+	
+		TextComponent modifiedMessage = new TextComponent();
+		modifiedMessage.setText(ChatColor.translateAlternateColorCodes('&', message));
+		modifiedMessage.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§7Click to reply to this message").create()));
+		modifiedMessage.setClickEvent(new ClickEvent(net.md_5.bungee.api.chat.ClickEvent.Action.SUGGEST_COMMAND, "/chat p " + sender.getName() + " "));
+		chatMessage.addExtra(modifiedMessage);
+		
+		receiver.getPlayer().spigot().sendMessage(chatMessage);
+		ChatHelper.notifySound(receiver.getPlayer(), Sound.BLOCK_NOTE_BLOCK_BIT);
+	}
+	
+	public static void sendAdvancedChatMessage(Player sender, Collection<? extends Player> receivers, String message) {
+		TextComponent chatMessage = new TextComponent();
+		
+		User user = MwCorePlugin.getInstance().getUserManager().getUser(sender);
+		TextComponent groupPrefixMessage = new TextComponent();
+		String groupPrefix = ChatColor.translateAlternateColorCodes('&', user.getGroup().getGroupPrefix());
+		chatMessage.addExtra(groupPrefixMessage);
+		groupPrefixMessage.setText(groupPrefix + " §r");
+		groupPrefixMessage.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§7Group §d" + user.getGroup().getName()).create()));
+		
+		TextComponent playerMessage = new TextComponent();
+		playerMessage.setText(sender.getName() + " §7>> ");
+		playerMessage.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§7Click to send §a" + sender.getName() + " §7a private message").create()));
+		playerMessage.setClickEvent(new ClickEvent(net.md_5.bungee.api.chat.ClickEvent.Action.SUGGEST_COMMAND, "/chat p " + sender.getName() + " "));
+		chatMessage.addExtra(playerMessage);
+	
+		TextComponent modifiedMessage = new TextComponent();
+		modifiedMessage.setText(ChatColor.translateAlternateColorCodes('&', message));
+		modifiedMessage.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§7Click to copy this message").create()));
+		modifiedMessage.setClickEvent(new ClickEvent(net.md_5.bungee.api.chat.ClickEvent.Action.SUGGEST_COMMAND, message));
+		chatMessage.addExtra(modifiedMessage);
+	
+		receivers.forEach(p -> p.spigot().sendMessage(chatMessage));
 	}
 	
 	public static void sendReplyableMessage(Player sender, Collection<? extends Player> receivers, String message) {
@@ -69,7 +109,6 @@ public class ChatHelper {
 		chatMessage.addExtra(modifiedMessage);
 	
 		receivers.forEach(p -> p.spigot().sendMessage(chatMessage));
-	
 	}
 	
 	public static void sendQuotedMessage(Collection<? extends Player> receivers, AdvancedChatMessage advancedChatMessage) {

@@ -16,4 +16,6 @@ public interface IChatCommand extends ICommand {
 
 	void reply(CommandSender sender, List<String> arguments);
 	
+	void p(CommandSender sender, List<String> arguments);
+	
 }

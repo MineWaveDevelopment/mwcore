@@ -25,7 +25,6 @@ import de.minewave.mwcore.util.ConsoleHelper;
  * @author Felix
  */
 public class MineWaveCommandExecuter implements CommandExecutor, TabCompleter {
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 

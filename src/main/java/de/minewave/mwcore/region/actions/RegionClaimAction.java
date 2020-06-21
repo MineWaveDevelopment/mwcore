@@ -19,7 +19,7 @@ import lombok.Getter;
  * Copyright (c) 2015-2020 by FLXnet
  * @author Felix
  */
-public class RegionBuyAction implements IAction {
+public class RegionClaimAction implements IAction {
 
 	@Getter
 	private User user;
@@ -30,7 +30,7 @@ public class RegionBuyAction implements IAction {
 	@Getter
 	private Chunk chunk;
 	
-	public RegionBuyAction(User user, ChunkPoint chunkPoint) {
+	public RegionClaimAction(User user, ChunkPoint chunkPoint) {
 		this.user = user;
 		this.chunkPoint = chunkPoint;
 		this.chunk = user.getPlayer().getLocation().getChunk();

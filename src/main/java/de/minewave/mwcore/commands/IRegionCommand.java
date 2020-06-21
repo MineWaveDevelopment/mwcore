@@ -16,7 +16,7 @@ public interface IRegionCommand extends ICommand {
 
 	void info(CommandSender sender, List<String> arguments);
 	
-	void buy(CommandSender sender, List<String> arguments);
+	void claim(CommandSender sender, List<String> arguments);
 	
 	void list(CommandSender sender, List<String> arguments);
 	

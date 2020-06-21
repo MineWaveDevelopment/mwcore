@@ -1,6 +1,7 @@
 package de.minewave.mwcore.region;
 
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.google.gson.annotations.Expose;
@@ -30,6 +31,11 @@ public class ChunkPoint {
 	
 	public static ChunkPoint getChunkPoint(Player player) {
 		Chunk chunk = player.getLocation().getChunk();
+		return new ChunkPoint(chunk.getX(), chunk.getZ());
+	}
+	
+	public static ChunkPoint getChunkPoint(Location location) {
+		Chunk chunk = location.getChunk();
 		return new ChunkPoint(chunk.getX(), chunk.getZ());
 	}
 	

@@ -12,3 +12,10 @@ commands:
    group:
    chat:
    region:
+   item:
+   head:
+   kick:
+   mute:
+   ban:
+   report:
+   hologram:
